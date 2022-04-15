@@ -121,6 +121,9 @@
                                 </li>
                             </ul>
                         </div>
+
+                        @if (Auth::user()->can('view-permission') && Auth::user()->can('create-permission') && Auth::user()->can('edit-permission') && Auth::user()->can('remove-permission'))
+
                         <div class="this-one col-md-4">
                             <ul>
                                 <li>
@@ -142,6 +145,7 @@
                                 </li>
                             </ul>
                         </div>
+                        @endif
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </form>
