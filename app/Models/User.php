@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Province\Province;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,4 +46,24 @@ class User extends Authenticatable
     public function users_roles(){
         return $this->hasOne(UserRole::class, 'user_id');
     }
+
+
+    public function provinceCreated()
+    {
+        return $this->hasMany(Province::class, 'created_by');
+    }
+    public function provinceUpdated()
+    {
+        return $this->hasMany(Province::class, 'updated_by');
+    }
+
+    public function districtCreated()
+    {
+        return $this->hasMany(Province::class, 'created_by');
+    }
+    public function districtUpdated()
+    {
+        return $this->hasMany(Province::class, 'updated_by');
+    }
+
 }

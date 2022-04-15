@@ -8,6 +8,7 @@ use App\Models\RolePermission;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class RoleController extends Controller
@@ -155,9 +156,10 @@ class RoleController extends Controller
         //
         if ($request->user()->can('edit-role')) {
             $role = Role::findorfail($id);
-            $data = $this->validate($request, [
+            $data = $request->all();
+            $validator = Validator::make($data, [
                 'name' => 'required|string',
-                'permissions' =>'required',
+                // 'permissions' =>'required',
                 'permissions.'=>'integer',
             ]);
 
@@ -166,13 +168,19 @@ class RoleController extends Controller
                 'name' => $data['name'],
                 'slug'=> $slug,
             ]);
-            $permissions = $data['permissions'];
-            $perm = array();
-            foreach($permissions as $permission){
-                $perm[] = $permission;
-                $role->permissions()->sync($perm);
+
+
+            if($request->has('permissions')){
+                $permissions = $data['permissions'];
+                $perm = array();
+                foreach($permissions as $permission){
+                    $perm[] = $permission;
+                    $role->permissions()->sync($perm);
+                }
+                $role->save();    
+            }else{
+                $role->permissions()->delete();
             }
-            $role->save();
             return redirect()->route('roles.index')->with('success', 'Role Updated Successfully');
         }else{
             return view('backend.permission.permission');

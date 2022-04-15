@@ -22,12 +22,12 @@ class RoleTableSeeder extends Seeder
                 "slug"=>Str::slug("Admin"),
             ],
             [
-                "name"=>"Editor",
-                "slug"=>Str::slug("Editor"),
+                "name"=>"Agent",
+                "slug"=>Str::slug("Agent"),
             ],
             [
-                "name"=>"User",
-                "slug"=>Str::slug("User"),
+                "name"=>"Client",
+                "slug"=>Str::slug("Client"),
             ],
         ]);
     }
